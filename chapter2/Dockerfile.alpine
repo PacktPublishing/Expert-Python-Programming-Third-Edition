@@ -1,0 +1,19 @@
+# Here we use bare alpine to illustrate
+# package management as it lacks Python
+# by default. For Python projects in general
+# the 'python:3.7-alpine' is probably better
+# choice.
+FROM alpine:3.7
+
+# Add python3 package as alpine image lacks it by default
+RUN apk add python3
+
+# Run multiple commands in single RUN instruction
+# so space can be reclaimed after the 'apk del py3-pip'
+# command because image layer is committed only after
+# whole whole instruction.
+RUN apk add py3-pip && \
+    pip3 install django && \
+    apk del py3-pip
+
+# (...)

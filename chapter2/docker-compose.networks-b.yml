@@ -1,0 +1,18 @@
+version: '3'
+
+networks:
+  default:
+    external:
+      name: my-interservice-network
+
+services:
+  other-service:
+    build: .
+    ports:
+    - "80:80"
+    tty: true
+
+    environment:
+    - DATABASE_HOSTNAME=database
+    - DATABASE_PORT=5432
+    - WEBSERVER_ADDRESS=http://webserver:80

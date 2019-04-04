@@ -1,0 +1,26 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  # Every Vagrant development environment requires a box.
+  # You can search for boxes at https://vagrantcloud.com/search.
+  # Here we use Bionic version Ubuntu system for x64 architecture.
+  config.vm.box = "ubuntu/bionic64"
+
+  # Create a forwarded port mapping which allows access to a specific port
+  # within the machine from a port on the host machine and only allow access
+  # via 127.0.0.1 to disable public access
+
+  config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
+  config.vm.provider "virtualbox" do |vb|
+    # Display the VirtualBox GUI when booting the machine
+    vb.gui = false
+    # Customize the amount of memory on the VM:
+    vb.memory = "1024"
+  end
+  # Enable provisioning with a shell script.
+  config.vm.provision "shell", inline: <<-SHELL
+    apt-get update
+    apt-get install python3.7 -y
+  SHELL
+end

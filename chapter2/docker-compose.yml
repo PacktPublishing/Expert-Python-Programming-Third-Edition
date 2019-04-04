@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  webserver:
+    # this tell Compose to build image from
+    # local (.) directory
+    build: .
+
+    # this is equivalent to "-p" option of
+    # the "docker build" command
+    ports:
+    - "80:80"
+
+    # this is equivalent to "-t" option of
+    # the "docker build" command
+    tty: true

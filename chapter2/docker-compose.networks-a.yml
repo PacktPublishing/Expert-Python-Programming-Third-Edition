@@ -1,0 +1,21 @@
+version: '3'
+
+networks:
+  default:
+    external:
+      name: my-interservice-network
+
+services:
+  webserver:
+    build: .
+    ports:
+    - "80:80"
+    tty: true
+
+    environment:
+    - DATABASE_HOSTNAME=database
+    - DATABASE_PORT=5432
+
+  database:
+    image: postgres
+    restart: always
