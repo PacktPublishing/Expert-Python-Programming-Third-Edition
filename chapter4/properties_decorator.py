@@ -5,7 +5,7 @@ class Rectangle:
 
     @property
     def width(self):
-        """rectangle height measured from top"""
+        """rectangle width measured from left"""
         return self.x2 - self.x1
 
     @width.setter
