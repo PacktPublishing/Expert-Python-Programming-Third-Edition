@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """This module provides compatibility layer for
 selected things that have changed across Python
 versions.
