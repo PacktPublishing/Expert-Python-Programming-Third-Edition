@@ -31,3 +31,4 @@ class Observer:
 
     def __str__(self):
         return f"<{self.__class__.__name__}: {self._id}>"
+

@@ -6,11 +6,8 @@ Map of example scripts to Chapter sections
 * Event-driven communication
   * `web_application.py`
 
+* Subject-based style
+  * `subject_based_style.py`
+
 * Topic-based style
-
-  * `interfaces_zope.py`
-  * `interfaces_abc.py`
-  * `interfaces_annotations.py`
-
-* Observer
-  * `observer.py`
+  * `topic_signaling_style.p`
