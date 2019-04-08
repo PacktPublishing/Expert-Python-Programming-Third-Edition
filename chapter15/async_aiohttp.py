@@ -4,9 +4,10 @@ to use aiohttp to perform asynchronous HTTP calls
 
 """
 import asyncio
-# note: local package
-from asyncgmaps import geocode, session
 
+import aiohttp
+
+from .asyncgmaps import geocode
 
 PLACES = (
     'Reykjavik', 'Vien', 'Zadar', 'Venice',
@@ -15,8 +16,8 @@ PLACES = (
 )
 
 
-async def fetch_place(place):
-    return (await geocode(place))[0]
+async def fetch_place(session, place):
+    return (await geocode(session, place))[0]
 
 
 async def present_result(result):
@@ -29,17 +30,13 @@ async def present_result(result):
 
 
 async def main():
-    await asyncio.wait([
-        present_result(fetch_place(place))
-        for place in PLACES
-    ])
+    with aiohttp.ClientSession() as session:
+        await asyncio.wait([
+            present_result(fetch_place(session, place))
+            for place in PLACES
+        ])
 
 
 if __name__ == "__main__":
     loop = asyncio.get_event_loop()
     loop.run_until_complete(main())
-
-    # aiohttp will raise issue about unclosed
-    # ClientSession so we perform cleanup manually
-    loop.run_until_complete(session.close())
-    loop.close()

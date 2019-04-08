@@ -1,10 +1,7 @@
-# -*- coding: utf-8 -*-
 import aiohttp
 
-session = aiohttp.ClientSession()
 
-
-async def geocode(place):
+async def geocode(session: aiohttp.ClientSession, place: str):
     params = {
         'sensor': 'false',
         'address': place
