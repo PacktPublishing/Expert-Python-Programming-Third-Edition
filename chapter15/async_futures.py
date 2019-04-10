@@ -15,11 +15,12 @@ BASES = ('USD', 'EUR', 'PLN', 'NOK', 'CZK')
 THREAD_POOL_SIZE = 4
 
 
-def fetch_rates(base):
-    response = requests.get(
+async def fetch_rates(base):
+    loop = asyncio.get_event_loop()
+    response = await loop.run_in_executor(
+        None, requests.get,
         f"https://api.exchangeratesapi.io/latest?base={base}"
     )
-
     response.raise_for_status()
     rates = response.json()["rates"]
     # note: same currency exchanges to itself 1:1
@@ -27,7 +28,9 @@ def fetch_rates(base):
     return base, rates
 
 
-def present_result(base, rates):
+async def present_result(result):
+    base, rates = (await result)
+
     rates_line = ", ".join(
         [f"{rates[symbol]:7.03} {symbol}" for symbol in SYMBOLS]
     )
@@ -36,7 +39,7 @@ def present_result(base, rates):
 
 async def main():
     await asyncio.wait([
-        present_result(*fetch_rates(base))
+        present_result(fetch_rates(base))
         for base in BASES
     ])
 
