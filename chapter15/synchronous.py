@@ -1,31 +1,31 @@
-# -*- coding: utf-8 -*-
 import time
 
-from gmaps import Geocoding
+import requests
 
-api = Geocoding()
-
-
-PLACES = (
-    'Reykjavik', 'Vien', 'Zadar', 'Venice',
-    'Wrocław', 'Bolognia', 'Berlin', 'Słubice',
-    'New York', 'Dehli',
-)
+SYMBOLS = ('USD', 'EUR', 'PLN', 'NOK', 'CZK')
+BASES = ('USD', 'EUR', 'PLN', 'NOK', 'CZK')
 
 
-def fetch_place(place):
-    geocoded = api.geocode(place)[0]
+def fetch_rates(base):
+    response = requests.get(
+        f"https://api.exchangeratesapi.io/latest?base={base}"
+    )
 
-    print("{:>25s}, {:6.2f}, {:6.2f}".format(
-        geocoded['formatted_address'],
-        geocoded['geometry']['location']['lat'],
-        geocoded['geometry']['location']['lng'],
-    ))
+    response.raise_for_status()
+    rates = response.json()["rates"]
+    # note: same currency exchanges to itself 1:1
+    rates[base] = 1.
+
+    rates_line = ", ".join(
+        [f"{rates[symbol]:7.03} {symbol}" for symbol in SYMBOLS]
+    )
+    print(f"1 {base} = {rates_line}")
 
 
 def main():
-    for place in PLACES:
-        fetch_place(place)
+    for base in BASES:
+        fetch_rates(base)
+
 
 if __name__ == "__main__":
     started = time.time()

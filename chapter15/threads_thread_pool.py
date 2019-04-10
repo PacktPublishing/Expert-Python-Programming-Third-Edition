@@ -7,29 +7,29 @@ import time
 from queue import Queue, Empty
 from threading import Thread
 
-from gmaps import Geocoding
-
+import requests
 
 THREAD_POOL_SIZE = 4
 
-api = Geocoding()
+
+SYMBOLS = ('USD', 'EUR', 'PLN', 'NOK', 'CZK')
+BASES = ('USD', 'EUR', 'PLN', 'NOK', 'CZK')
 
 
-PLACES = (
-    'Reykjavik', 'Vien', 'Zadar', 'Venice',
-    'Wrocław', 'Bolognia', 'Berlin', 'Słubice',
-    'New York', 'Dehli',
-)
+def fetch_rates(base):
+    response = requests.get(
+        f"https://api.exchangeratesapi.io/latest?base={base}"
+    )
 
+    response.raise_for_status()
+    rates = response.json()["rates"]
+    # note: same currency exchanges to itself 1:1
+    rates[base] = 1.
 
-def fetch_place(place):
-    geocoded = api.geocode(place)[0]
-
-    print("{:>25s}, {:6.2f}, {:6.2f}".format(
-        geocoded['formatted_address'],
-        geocoded['geometry']['location']['lat'],
-        geocoded['geometry']['location']['lng'],
-    ))
+    rates_line = ", ".join(
+        [f"{rates[symbol]:7.03} {symbol}" for symbol in SYMBOLS]
+    )
+    print(f"1 {base} = {rates_line}")
 
 
 def worker(work_queue):
@@ -39,15 +39,15 @@ def worker(work_queue):
         except Empty:
             break
         else:
-            fetch_place(item)
+            fetch_rates(item)
             work_queue.task_done()
 
 
 def main():
     work_queue = Queue()
 
-    for place in PLACES:
-        work_queue.put(place)
+    for base in BASES:
+        work_queue.put(base)
 
     threads = [
         Thread(target=worker, args=(work_queue,))
@@ -70,3 +70,4 @@ if __name__ == "__main__":
 
     print()
     print("time elapsed: {:.2f}s".format(elapsed))
+

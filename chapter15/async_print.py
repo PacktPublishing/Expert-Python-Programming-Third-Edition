@@ -5,6 +5,7 @@ asynchronous printing of numbers sequence.
 """
 import asyncio
 
+
 async def print_number(number):
     print(number)
 

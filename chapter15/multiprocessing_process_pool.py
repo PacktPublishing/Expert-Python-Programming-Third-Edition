@@ -1,38 +1,47 @@
+import time
 from multiprocessing import Pool
 
-from gmaps import Geocoding
-
-api = Geocoding()
+import requests
 
 
-PLACES = (
-    'Reykjavik', 'Vien', 'Zadar', 'Venice',
-    'Wrocław', 'Bolognia', 'Berlin', 'Słubice',
-    'New York', 'Dehli',
-)
+SYMBOLS = ('USD', 'EUR', 'PLN', 'NOK', 'CZK')
+BASES = ('USD', 'EUR', 'PLN', 'NOK', 'CZK')
 
 POOL_SIZE = 4
 
 
-def fetch_place(place):
-    return api.geocode(place)[0]
+def fetch_rates(base):
+    response = requests.get(
+        f"https://api.exchangeratesapi.io/latest?base={base}"
+    )
+
+    response.raise_for_status()
+    rates = response.json()["rates"]
+    # note: same currency exchanges to itself 1:1
+    rates[base] = 1.
+    return base, rates
 
 
-def present_result(geocoded):
-    print("{:>25s}, {:6.2f}, {:6.2f}".format(
-        geocoded['formatted_address'],
-        geocoded['geometry']['location']['lat'],
-        geocoded['geometry']['location']['lng'],
-    ))
+def present_result(base, rates):
+    rates_line = ", ".join(
+        [f"{rates[symbol]:7.03} {symbol}" for symbol in SYMBOLS]
+    )
+    print(f"1 {base} = {rates_line}")
 
 
 def main():
     with Pool(POOL_SIZE) as pool:
-        results = pool.map(fetch_place, PLACES)
+        results = pool.map(fetch_rates, BASES)
 
     for result in results:
-        present_result(result)
+        present_result(*result)
 
 
 if __name__ == "__main__":
+    started = time.time()
     main()
+    elapsed = time.time() - started
+
+    print()
+    print("time elapsed: {:.2f}s".format(elapsed))
+
