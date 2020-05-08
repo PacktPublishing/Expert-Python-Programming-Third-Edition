@@ -39,6 +39,21 @@ The required softwares are specified chapter wise in the book.
 
 We also provide a PDF file that has color images of the screenshots/diagrams used in this book. [Click here to download it](https://www.packtpub.com/sites/default/files/downloads/9781789808896_ColorImages.pdf).
 
+## Errata
+
+* PDF page no: 306 Chapter 9
+
+    Sample code like this:
+
+    ```
+    with nogil:
+    result = fibonacci_cc(n)
+
+    return fibonacci_cc(n)
+    ```
+
+    `return fibonacci_cc(n)` should be `return result`.
+
 ### Related products
 * Learn Python Programming - Second Edition [[Packt]](https://www.packtpub.com/application-development/learn-python-programming-second-edition?utm_source=github&utm_medium=repository&utm_campaign=9781788996662) [[Amazon]](https://www.amazon.com/dp/1788996666)
 
