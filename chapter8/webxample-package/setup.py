@@ -58,7 +58,7 @@ setup(
     install_requires=[
         'django == 1.9.2',
         'gunicorn == 19.9.0',
-        'djangorestframework == 3.3.2',
+        'djangorestframework == 3.9.1',
         'django-allauth == 0.24.1',
     ],
     packages=find_packages('.'),
