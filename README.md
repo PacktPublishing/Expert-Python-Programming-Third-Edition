@@ -1,6 +1,6 @@
 # Expert Python Programming - Third Edition
 
-<a href="https://www.packtpub.com/application-development/expert-python-programming-third-edition?utm_source=github&utm_medium=repository&utm_campaign=9781789808896 "><img src="https://d255esdrn735hr.cloudfront.net/sites/default/files/imagecache/ppv4_main_book_cover/B12437.png" alt="Expert Python Programming - Third Edition" height="256px" align="right"></a>
+<a href="https://www.packtpub.com/application-development/expert-python-programming-third-edition?utm_source=github&utm_medium=repository&utm_campaign=9781789808896 "><img src="https://www.packtpub.com/media/catalog/product/cache/e4d64343b1bc593f1c5348fe05efa4a6/b/1/b12437.png" height="256px" align="right"></a>
 
 This is the code repository for [Expert Python Programming - Third Edition](https://www.packtpub.com/application-development/expert-python-programming-third-edition?utm_source=github&utm_medium=repository&utm_campaign=9781789808896), published by Packt.
 
