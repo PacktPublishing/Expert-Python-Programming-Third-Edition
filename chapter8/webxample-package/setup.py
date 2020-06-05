@@ -53,10 +53,10 @@ setup(
     name='webxample',
     setup_requires=[
         'libsass == 0.6.0',
-        'django == 1.11.28',
+        'django == 1.11.29',
     ],
     install_requires=[
-        'django == 1.11.28',
+        'django == 1.11.29',
         'gunicorn == 19.9.0',
         'djangorestframework == 3.9.1',
         'django-allauth == 0.24.1',
